@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+
+  install:
+    commands:
+      - go get github.com/golang/lint/golint
+      - go get github.com/gruntwork-io/terratest/modules/terraform
+      - go get github.com/stretchr/testify/assert
+      - go get github.com/aws/aws-sdk-go/aws
+      - go get github.com/go-sql-driver/mysql
+      - go get github.com/google/uuid
+      - go get github.com/pquerna/otp/totp
+      - wget -q https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
+      - unzip terraform_0.11.8_linux_amd64.zip
+      - echo $PATH
+      - cp terraform /usr/local/bin
+
+  pre_build:
+    commands:
+
+      # Ensure code passes all lint tests
+      - golint -set_exit_status
+
+  build:
+    commands:
+
+      # Run basic TF test
+      - go test test/terraform_basic_example_test.go
+
+      # Run AWS TF test
+      - go test test/terraform_aws_example_test.go
+
+artifacts:
+  files:
+    - buildspec.yml
