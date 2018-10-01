@@ -27,7 +27,7 @@ phases:
     commands:
 
       # Run TF test
-      - go test -v test/test.go
+      - go test test/test.go
 
 artifacts:
   files:
