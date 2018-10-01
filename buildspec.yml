@@ -21,6 +21,7 @@ phases:
 
       # Ensure code passes all lint tests
       - golint -set_exit_status
+      - go version
 
   build:
     commands:
