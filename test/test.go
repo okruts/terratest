@@ -1,17 +1,15 @@
 package test
 
 import (
-	"fmt"
 	"testing"
+	"time"
 
-	"github.com/gruntwork-io/terratest/modules/aws"
-	"github.com/gruntwork-io/terratest/modules/random"
+	"github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestWebServer(t *testing.T) {
-	terraformOptions := &terraform.Options {
+	terraformOptions := &terraform.Options{
 		// The path to where your Terraform code is located
 		TerraformDir: "../tf-templates",
 	}
