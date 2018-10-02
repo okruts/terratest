@@ -27,9 +27,12 @@ func TestTerraformAwsExample(t *testing.T) {
 	// awsRegion := aws.GetRandomRegion(t, nil, nil)
 	awsRegion := "us-east-1"
 
+	// The folder where we have our Terraform code
+	workingDir := "../tf-templates/http-test"
+
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../tf-templates/http-test",
+		TerraformDir: workingDir,
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
@@ -64,7 +67,7 @@ func TestTerraformAwsExample(t *testing.T) {
 }
 
 // An example of how to test the Terraform module in examples/terraform-http-example using Terratest.
-func TestTerraformHttpExample(t *testing.T) {
+func TestTerraformHttpExample(t *testing.T, awsRegion string, workingDir string, uniqueID string) {
 	t.Parallel()
 
 	// Specify the text the EC2 Instance will return when we make HTTP requests to it.
@@ -72,7 +75,7 @@ func TestTerraformHttpExample(t *testing.T) {
 
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../tf-templates/http-test",
+		TerraformDir: workingDir,
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
