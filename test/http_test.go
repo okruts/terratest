@@ -50,9 +50,10 @@ func TestTerraformHttpExample(t *testing.T) {
 	instanceURL := terraform.Output(t, terraformOptions, "instance_url")
 
 	// It can take a minute or so for the Instance to boot up, so retry a few times
+	status := 200
 	maxRetries := 30
 	timeBetweenRetries := 5 * time.Second
 
 	// Verify that we get back a 200 OK with the expected instanceText
-	http_helper.HttpGetWithRetry(t, instanceURL, 200, instanceText, maxRetries, timeBetweenRetries)
+	http_helper.HttpGetWithRetry(t, instanceURL, status, instanceText, maxRetries, timeBetweenRetries)
 }

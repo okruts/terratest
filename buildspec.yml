@@ -28,7 +28,7 @@ phases:
     commands:
 
       # Run TF test
-      - go test test/http_test.go
+      - go test test/ec2_test.go
 
 artifacts:
   files:
