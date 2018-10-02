@@ -29,7 +29,7 @@ var workingDir = "../tf-templates/http-test"
 // Specify the text the EC2 Instance will return when we make HTTP requests to it.
 var instanceText = fmt.Sprintf("Hello, %s!", uniqueID)
 
-func TestTerraformAwsExample(t *testing.T) {"instance_name": instanceName,
+func TestTerraformAwsExample(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
@@ -38,8 +38,8 @@ func TestTerraformAwsExample(t *testing.T) {"instance_name": instanceName,
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
+			"aws_region":    awsRegion,
 			"instance_name": instanceName,
-      "instance_name": instanceName,
 			"instance_text": instanceText,
 		},
 	}
@@ -63,7 +63,7 @@ func TestTerraformAwsExample(t *testing.T) {"instance_name": instanceName,
 	nameTag, containsNameTag := instanceTags["Name"]
 	assert.True(t, containsNameTag)
 	assert.Equal(t, instanceName, nameTag)
-}"instance_name": instanceName,
+}
 
 // An example of how to test the Terraform module in examples/terraform-http-example using Terratest.
 func TestTerraformHttpExample(t *testing.T) {
