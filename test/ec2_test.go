@@ -67,7 +67,7 @@ func TestTerraformAwsExample(t *testing.T) {
 }
 
 // An example of how to test the Terraform module in examples/terraform-http-example using Terratest.
-func TestTerraformHttpExample(t *testing.T, awsRegion string, workingDir string, uniqueID string) {
+func TestTerraformHttpExample(t *testing.T, awsRegion string, workingDir string, instanceName string, uniqueID string) {
 	t.Parallel()
 
 	// Specify the text the EC2 Instance will return when we make HTTP requests to it.
