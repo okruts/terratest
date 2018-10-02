@@ -29,25 +29,25 @@ var workingDir = "../tf-templates/http-test"
 // Specify the text the EC2 Instance will return when we make HTTP requests to it.
 var instanceText = fmt.Sprintf("Hello, %s!", uniqueID)
 
+var terraformOptions = &terraform.Options{
+	// The path to where our Terraform code is located
+	TerraformDir: workingDir,
+
+	// Variables to pass to our Terraform code using -var options
+	Vars: map[string]interface{}{
+		"aws_region":    awsRegion,
+		"instance_name": instanceName,
+		"instance_text": instanceText,
+	},
+
+	// Environment variables to set when running Terraform
+	EnvVars: map[string]string{
+		"AWS_DEFAULT_REGION": awsRegion,
+	},
+}
+
 func TestTerraformAwsExample(t *testing.T) {
 	t.Parallel()
-
-	terraformOptions := &terraform.Options{
-		// The path to where our Terraform code is located
-		TerraformDir: workingDir,
-
-		// Variables to pass to our Terraform code using -var options
-		Vars: map[string]interface{}{
-			"aws_region":    awsRegion,
-			"instance_name": instanceName,
-			"instance_text": instanceText,
-		},
-
-		// Environment variables to set when running Terraform
-		EnvVars: map[string]string{
-			"AWS_DEFAULT_REGION": awsRegion,
-		},
-	}
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.InitAndApply(t, terraformOptions)
