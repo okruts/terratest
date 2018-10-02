@@ -12,23 +12,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// A unique ID we can use to namespace resources so we don't clash with anything already in the AWS account or
+// tests running in parallel
+var uniqueID = random.UniqueId()
+
+// Give this EC2 Instance a unique ID for a name tag so we can distinguish it from any other EC2 Instance running
+// in your AWS account
+var instanceName = fmt.Sprintf("terratest-aws-example-%s", uniqueID)
+
+// Pick a random AWS region to test in. This helps ensure your code works in all regions.
+// awsRegion := aws.GetRandomRegion(t, nil, nil)
+var awsRegion = "us-east-1"
+
+// The folder where we have our Terraform code
+var workingDir = "../tf-templates/http-test"
+
 func TestTerraformAwsExample(t *testing.T) {
 	t.Parallel()
-
-	// A unique ID we can use to namespace resources so we don't clash with anything already in the AWS account or
-	// tests running in parallel
-	uniqueID := random.UniqueId()
-
-	// Give this EC2 Instance a unique ID for a name tag so we can distinguish it from any other EC2 Instance running
-	// in your AWS account
-	instanceName := fmt.Sprintf("terratest-aws-example-%s", uniqueID)
-
-	// Pick a random AWS region to test in. This helps ensure your code works in all regions.
-	// awsRegion := aws.GetRandomRegion(t, nil, nil)
-	awsRegion := "us-east-1"
-
-	// The folder where we have our Terraform code
-	workingDir := "../tf-templates/http-test"
 
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
@@ -67,7 +67,7 @@ func TestTerraformAwsExample(t *testing.T) {
 }
 
 // An example of how to test the Terraform module in examples/terraform-http-example using Terratest.
-func TestTerraformHttpExample(t *testing.T, awsRegion string, workingDir string, instanceName string, uniqueID string) {
+func TestTerraformHttpExample(t *testing.T) {
 	t.Parallel()
 
 	// Specify the text the EC2 Instance will return when we make HTTP requests to it.
