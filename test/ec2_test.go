@@ -21,11 +21,13 @@ var uniqueID = random.UniqueId()
 var instanceName = fmt.Sprintf("terratest-aws-example-%s", uniqueID)
 
 // Pick a random AWS region to test in. This helps ensure your code works in all regions.
-// awsRegion := aws.GetRandomRegion(t, nil, nil)
 var awsRegion = "us-east-1"
 
 // The folder where we have our Terraform code
 var workingDir = "../tf-templates/http-test"
+
+// Specify the text the EC2 Instance will return when we make HTTP requests to it.
+var instanceText = fmt.Sprintf("Hello, %s!", uniqueID)
 
 func TestTerraformAwsExample(t *testing.T) {
 	t.Parallel()
@@ -36,7 +38,9 @@ func TestTerraformAwsExample(t *testing.T) {
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
+			"aws_region":    awsRegion,
 			"instance_name": instanceName,
+			"instance_text": instanceText,
 		},
 
 		// Environment variables to set when running Terraform
@@ -70,26 +74,8 @@ func TestTerraformAwsExample(t *testing.T) {
 func TestTerraformHttpExample(t *testing.T) {
 	t.Parallel()
 
-	// Specify the text the EC2 Instance will return when we make HTTP requests to it.
-	instanceText := fmt.Sprintf("Hello, %s!", uniqueID)
-
-	terraformOptions := &terraform.Options{
-		// The path to where our Terraform code is located
-		TerraformDir: workingDir,
-
-		// Variables to pass to our Terraform code using -var options
-		Vars: map[string]interface{}{
-			"aws_region":    awsRegion,
-			"instance_name": instanceName,
-			"instance_text": instanceText,
-		},
-	}
-
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
 	defer terraform.Destroy(t, terraformOptions)
-
-	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.InitAndApply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
 	instanceURL := terraform.Output(t, terraformOptions, "instance_url")
